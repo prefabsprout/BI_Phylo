@@ -1,0 +1,99 @@
+---
+title: "HW1 - Philogeny"
+author: "Stepan Petrosian"
+output: html_document
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Подгрузим библиотеки
+
+```{r}
+library(ape)
+library(ggtree)
+```
+
+## Прочтём дерево.
+
+```{r}
+tree1 <- read.tree('https://www.jasondavies.com/tree-of-life/life.txt')
+```
+
+## Нарисуем дерево.
+
+```{r}
+plot.phylo(tree1)
+```
+
+## И даже сохраним его! 
+
+В svg...
+
+```{r}
+svg(filename = "tree1.svg", pointsize = 2)
+plot.phylo(tree1)
+dev.off()
+```
+
+...и в png.
+
+```{r}
+png(filename = "tree1.png", pointsize = 2)
+plot.phylo(tree1)
+dev.off()
+```
+
+## Нарисуем круговое дерево и не укорененное
+
+```{r}
+plot.phylo(tree1, type = 'radial')
+```
+
+```{r}
+plot.phylo(tree1, type = 'unrooted')
+```
+
+## Прочтём дерево из строки в nwk формате.
+
+```{r}
+tree2 <- read.tree(text='(((A, B), (C, D)), E);')
+```
+
+## Нарисуем это дерево и сохраним в png и svg.
+
+```{r}
+plot.phylo(tree2)
+```
+
+
+```{r}
+svg(filename = "tree2.svg", pointsize = 2)
+plot.phylo(tree2)
+dev.off()
+
+png(filename = "tree2.png", pointsize = 2)
+plot.phylo(tree2)
+dev.off()
+```
+
+## Нарисуем круговое и не укорененное дерево номер два.
+
+```{r}
+plot.phylo(tree2, type = 'radial')
+```
+
+
+```{r}
+plot.phylo(tree2, type = 'unrooted')
+```
+
+## Нарисуем дерево номер один в ggtree.
+
+```{r}
+ggtree(tree1) + geom_text2(aes(subset=!isTip, label=node), 
+                           hjust=-.2) + geom_tiplab()
+```
+
